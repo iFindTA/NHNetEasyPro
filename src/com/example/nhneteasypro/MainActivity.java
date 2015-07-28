@@ -34,10 +34,6 @@ import android.widget.Button;
 
  public class MainActivity extends Activity implements OnClickListener{
 
-	 private static final String SEP1 = "#"; 
-     private static final String SEP2 = "|";
-     private static final String SEP3 = "="; 
-
 	private final String TAG = "MainActivity";
 
 	BridgeWebView webView;
@@ -74,8 +70,6 @@ import android.widget.Button;
 			}
 			
 		});
-		String baseUrl = "file:///android_asset/";
-		//String filePath = "file:///android_asset/demo.html";
 		String filePath = "file:///android_asset/template.html";
 		//String htmlPath = "http://192.168.0.209:8080/ios-template/template.html";
 		webView.loadUrl(filePath);
@@ -88,12 +82,6 @@ import android.widget.Button;
         });
         
         handler.postDelayed(excuteTest, 10000);
-        
-//        new Thread(){
-//        	public void run() {
-//				excuteDisplay();
-//			}
-//        }.start();
     }
     
     private Runnable excuteTest = new Runnable() {
