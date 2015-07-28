@@ -53,21 +53,19 @@ import android.widget.Button;
 		webView.setWebChromeClient(new WebChromeClient() {
 
 		});
-		String baseUrl = "file:///android_asset/";
-		//String filePath = "file:///android_asset/demo.html";
-		String filePath = "file:///android_asset/template.html";
-		//String htmlPath = "http://192.168.0.209:8080/ios-template/template.html";
-		webView.loadUrl(filePath);
-		
-		webView.registerHandler("submitFromWeb", new BridgeHandler() {
-			
+		webView.setDefaultHandler(new DefaultHandler(){
 			@Override
 			public void handler(String data, CallBackFunction function) {
 				Log.i(TAG, "handler = submitFromWeb, data from web = " + data);
                 function.onCallBack("submitFromWeb exe, response data from Java");
 			}
-
+			
 		});
+		String baseUrl = "file:///android_asset/";
+		//String filePath = "file:///android_asset/demo.html";
+		String filePath = "file:///android_asset/template.html";
+		//String htmlPath = "http://192.168.0.209:8080/ios-template/template.html";
+		webView.loadUrl(filePath);
 		
         webView.callHandler("functionInJs", "smart", new CallBackFunction() {
             @Override
