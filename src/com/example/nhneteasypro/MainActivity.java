@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 
+import org.json.JSONObject;
+
 import com.github.lzyzsd.jsbridge.BridgeHandler;
 import com.github.lzyzsd.jsbridge.BridgeWebView;
 import com.github.lzyzsd.jsbridge.CallBackFunction;
@@ -122,6 +124,10 @@ import android.widget.Button;
 		default:
 			break;
 		}
+	}
+	
+	public void handleWebviewTouchEvent(String data) {
+		JSONObject json = new Gson().to
 	}
     
     @Override
