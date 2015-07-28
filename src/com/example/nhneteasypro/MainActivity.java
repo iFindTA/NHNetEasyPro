@@ -150,60 +150,6 @@ import android.widget.Button;
 		.show(); 
 		
 	}
-	
-	public static Map<String, Object> StringToMap(String mapText) {  
-        if (mapText == null || mapText.equals("")) {  
-            return null;  
-        }  
-        mapText = mapText.substring(1);  
-  
-        //mapText = mapText;  
-  
-        Map<String, Object> map = new HashMap<String, Object>(); 
-        String[] text = mapText.split("\\" + SEP2); // 转换为数组 
-        for (String str : text) { 
-            String[] keyText = str.split(SEP3); // 转换key与value的数组 
-            if (keyText.length < 1) { 
-                continue; 
-            } 
-            String key = keyText[0]; // key 
-            String value = keyText[1]; // value 
-            if (value.charAt(0) == 'M') { 
-                Map<?, ?> map1 = StringToMap(value); 
-                map.put(key, map1); 
-            } else if (value.charAt(0) == 'L') { 
-                List<?> list = StringToList(value); 
-                map.put(key, list); 
-            } else { 
-                map.put(key, value); 
-            } 
-        } 
-        return map;   
-    } 
-	
-	public static List<Object> StringToList(String listText) { 
-        if (listText == null || listText.equals("")) { 
-            return null; 
-        } 
-        listText = listText.substring(1); 
-   
-        //listText = listText; 
-   
-        List<Object> list = new ArrayList<Object>(); 
-        String[] text = listText.split(SEP1); 
-        for (String str : text) { 
-            if (str.charAt(0) == 'M') { 
-                Map<?, ?> map = StringToMap(str); 
-                list.add(map); 
-            } else if (str.charAt(0) == 'L') { 
-                List<?> lists = StringToList(str); 
-                list.add(lists); 
-            } else { 
-                list.add(str); 
-            } 
-        } 
-        return list; 
-    } 
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
