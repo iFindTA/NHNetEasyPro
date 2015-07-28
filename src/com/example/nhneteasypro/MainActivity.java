@@ -2,7 +2,10 @@ package com.example.nhneteasypro;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.json.JSONObject;
 
@@ -11,11 +14,14 @@ import com.github.lzyzsd.jsbridge.BridgeWebView;
 import com.github.lzyzsd.jsbridge.CallBackFunction;
 import com.github.lzyzsd.jsbridge.DefaultHandler;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.pullbears.util.JSONUtil;
 
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
@@ -27,6 +33,10 @@ import android.webkit.WebView;
 import android.widget.Button;
 
  public class MainActivity extends Activity implements OnClickListener{
+
+	 private static final String SEP1 = "#"; 
+     private static final String SEP2 = "|";
+     private static final String SEP3 = "="; 
 
 	private final String TAG = "MainActivity";
 
@@ -60,6 +70,7 @@ import android.widget.Button;
 			public void handler(String data, CallBackFunction function) {
 				Log.i(TAG, "handler = submitFromWeb, data from web = " + data);
                 function.onCallBack("submitFromWeb exe, response data from Java");
+                handleWebviewTouchEvent(data);
 			}
 			
 		});
@@ -127,8 +138,72 @@ import android.widget.Button;
 	}
 	
 	public void handleWebviewTouchEvent(String data) {
-		JSONObject json = new Gson().to
+		Map<String,String> map = new Gson().fromJson(data, new TypeToken<Map<String,String>>(){}.getType());
+		String type = (String) map.get("type");
+		String id = (String) map.get("id");
+		Log.i(TAG, "handleWebviewTouchEvent" + type);
+		new AlertDialog.Builder(this)   
+		.setTitle(type)  
+		.setMessage("标题" + id)  
+		.setPositiveButton("是", null)  
+		.setNegativeButton("否", null)  
+		.show(); 
+		
 	}
+	
+	public static Map<String, Object> StringToMap(String mapText) {  
+        if (mapText == null || mapText.equals("")) {  
+            return null;  
+        }  
+        mapText = mapText.substring(1);  
+  
+        //mapText = mapText;  
+  
+        Map<String, Object> map = new HashMap<String, Object>(); 
+        String[] text = mapText.split("\\" + SEP2); // 转换为数组 
+        for (String str : text) { 
+            String[] keyText = str.split(SEP3); // 转换key与value的数组 
+            if (keyText.length < 1) { 
+                continue; 
+            } 
+            String key = keyText[0]; // key 
+            String value = keyText[1]; // value 
+            if (value.charAt(0) == 'M') { 
+                Map<?, ?> map1 = StringToMap(value); 
+                map.put(key, map1); 
+            } else if (value.charAt(0) == 'L') { 
+                List<?> list = StringToList(value); 
+                map.put(key, list); 
+            } else { 
+                map.put(key, value); 
+            } 
+        } 
+        return map;   
+    } 
+	
+	public static List<Object> StringToList(String listText) { 
+        if (listText == null || listText.equals("")) { 
+            return null; 
+        } 
+        listText = listText.substring(1); 
+   
+        //listText = listText; 
+   
+        List<Object> list = new ArrayList<Object>(); 
+        String[] text = listText.split(SEP1); 
+        for (String str : text) { 
+            if (str.charAt(0) == 'M') { 
+                Map<?, ?> map = StringToMap(str); 
+                list.add(map); 
+            } else if (str.charAt(0) == 'L') { 
+                List<?> lists = StringToList(str); 
+                list.add(lists); 
+            } else { 
+                list.add(str); 
+            } 
+        } 
+        return list; 
+    } 
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
