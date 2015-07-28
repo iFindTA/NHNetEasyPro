@@ -1,0 +1,102 @@
+body, h1, h2, p {
+	margin: 0;
+	padding: 0;
+}
+body {
+	font-size: 10px;
+}
+@media (min-width: 410) {
+	body {
+		font-size: 13px;		
+	}
+}
+.title {
+	padding: 10px 20px;
+	font-size: 1.8em;
+	color: #000;
+	line-height: 1.3em;
+}
+.intro, .content {
+	text-align: justify;
+	white-space: break-word;
+	word-break: break-all;
+}
+.intro {
+	padding: 8px 20px;
+	font-size: 1.3em;
+	background: #eee;
+	line-height: 1.5em;
+	color: #666;
+}
+.content {
+	padding: 8px 20px;
+	font-size: 1.4em;
+	line-height: 1.5em;
+}
+.content img {
+	width: 100%;
+	margin: 10px 0;
+}
+.note {
+	padding: 0 20px 10px 20px;
+	border-bottom: 1px solid #ddd;
+	color: #999;
+	font-size: 1.2em;
+	text-align: center;
+}
+.note .author {
+	padding-top: 10px;
+	padding-bottom: 5px;
+	border-top: 1px dashed #ddd;
+}
+.relate {
+	padding: 15px 20px;
+	color: #666;
+	font-size: 1.5em;
+	border-bottom: 1px solid #ddd;
+}
+.relate-item {
+	display: block;
+	padding: 10px 20px 0 20px;
+}
+.relate-item .relate-inner {
+	position: relative;
+	border-bottom: 1px dashed #ddd;
+	padding-bottom: 10px;
+}
+.relate-item.has-image .relate-inner {
+	min-height: 70px;
+}
+.relate-item.has-image {
+	position: relative;
+}
+.relate-item .relate-title, .relate-item .relate-intro {
+	display: block;
+	text-align: justify;
+	white-space: break-word;
+	word-break: break-all;
+}
+.relate-item .relate-title {
+	color: #333;
+	font-size: 1.3em;
+	line-height: 1.7em;
+}
+.relate-item .relate-intro {
+	color: #888;
+	font-size: 1.1em;
+	line-height: 1.4em;
+	border-bottom: 10px;
+}
+.relate-item.has-image img {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	display: block;
+	border: 0;
+	width: 105px;
+	height: 70px;
+}
+.relate-item.has-image .relate-title, .relate-item.has-image .relate-intro {
+	padding-left: 115px;
+}
+
