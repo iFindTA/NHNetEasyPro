@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+	<title>模板</title>
+	<link href="static/css/main.css" rel="stylesheet">
+	<script src="static/vendor/dot.js"></script>
+    <script type="text/javascript" src="static/js/core.js"></script>
+</head>
+<body>
+    <div id="builder">
+    </div>
+    <script type="text/javascript" src="static/vendor/jquery.js"></script>
+    <script type="text/javascript" src="static/js/post.js"></script>
+    <script type="text/javascript">
+    	function connectWebViewJavascriptBridge(callback) {
+	        if (window.WebViewJavascriptBridge) {
+	         	callback(WebViewJavascriptBridge)
+	        } else {
+	          	document.addEventListener('WebViewJavascriptBridgeReady', function() {
+                    callback(WebViewJavascriptBridge)
+                    }, false)
+	        }
+	    }
+	    // 这2句是必须写的
+	    connectWebViewJavascriptBridge(function(bridge) {
+	    	bridge.init(function(msg, responseCallback) {
+	    		responseCallback('初始化成功');
+	    	});
+			/**
+			* 注册事件-渲染模板
+			* @params {object} data
+			* {
+			*	data: data,
+			* 	template: '',
+			* 	pict: 1,
+			* 	defaultimg: ""
+			* }
+			*/
+			bridge.registerHandler('buildHtmlHandler', function(data, responseCallback) {
+                responseCallback(data);
+                if(typeof data == 'string') {
+                    data = eval('(' + data + ')');
+                }
+                var ctn = data.data;
+                if(typeof ctn == 'string') {
+                    ctn = eval('(' + data.data + ')');
+                }
+				loadScript(data.template, function() {
+					ctn.body = replaceImage(ctn.body, ctn.img, data.defaultimg, data.pict);
+					//alert('load script success, start to compile');
+					build(ctn);
+				})
+			})
+			/**
+			* 注册事件-更新图片
+			* @params {object} data
+			* {
+			* 	index: 1,
+			* 	src: ''
+			* }
+			*/
+			bridge.registerHandler('callLoadImage', function(data, responseCallback) {
+				if(!data || data.index == undefined) {
+					responseCallback({code: 400002, msg: '找不到图片数据，错误的图片索引'});
+					return;
+				}
+				var pre = 'delayLoadImageFuckuman';
+				var img = document.getElementById('delayLoadImageFuckuman' + data.index);
+				if(!img) {
+					responseCallback({code: 400004, msg: '找不到索引为"'+data.index+'"的图片对象'});
+					return;
+				}
+				img.src = data.src;
+				img.removeAttribute('nopic');
+			})
+	    });
+    </script>
+</body>
+</html>
